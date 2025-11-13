@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+httpx
+tenacity
+python-dotenv
+python-json-logger
+aiofiles
+pytest
+pytest-asyncio
+pydantic
+pydantic[email]
+pydantic-settings
+requests
+python-multipart
+motor
