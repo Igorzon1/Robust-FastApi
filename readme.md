@@ -1,216 +1,237 @@
-# 🛡️ Robust FastAPI — API Resiliente, Testada e Monitorada com MongoDB
+# Robust FastAPI — API Resiliente, Testada e Monitorada com MongoDB
 
-Projeto desenvolvido com o objetivo de demonstrar **boas práticas de desenvolvimento backend em Python**, utilizando **FastAPI**, **MongoDB**, **testes automatizados**, e **tratamento estruturado de erros e logs**.
+API backend desenvolvida para simular um ambiente real de produção, aplicando boas práticas de arquitetura, testes automatizados, observabilidade e tratamento estruturado de erros.
 
-A API simula um sistema real de **cadastro de usuários**, **criação de pedidos**, **upload de arquivos**, e **integrações externas** com tratamento de falhas — tudo dentro de um modelo de arquitetura robusto e preparado para ambientes reais.
+O projeto simula um sistema completo com cadastro de usuários, criação de pedidos, upload de arquivos e integração externa mockada, priorizando manutenibilidade, confiabilidade e organização de código.
+
+---
+
+## 🧩 O problema que este projeto resolve
+Projetos iniciantes normalmente ignoram:
+- monitoramento
+- logs
+- tratamento de exceções
+- testes automatizados
+- simulação de falhas reais
+
+Este sistema foi criado para simular **como uma API backend funciona em produção**, lidando com falhas, integrações externas e controle de erros — e não apenas "endpoints que funcionam".
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
 | Camada | Tecnologias |
-|--------|--------------|
-| **Backend** | [FastAPI](https://fastapi.tiangolo.com/) |
-| **Banco de Dados** | [MongoDB](https://www.mongodb.com/) (driver motor) |
-| **Testes** | Pytest + HTTPX (testes assíncronos) |
-| **Logs & Monitoramento** | logging, logger customizado e alertas (core/monitor.py) |
-| **Validações** | Pydantic Models & Settings |
-| **Container (opcional)** | Docker |
+|--------|-------------|
+| Backend | FastAPI |
+| Banco de dados | MongoDB (`motor`) |
+| Testes | Pytest + HTTPX |
+| Logs | logging + logger customizado |
+| Monitoramento | Sistema de alerta (`core/monitor.py`) |
+| Validação | Pydantic |
+| Container (Opcional) | Docker |
 
 ---
 
-## 🧩 Estrutura do Projeto
+## ✅ Funcionalidades
 
-```
-Robust-FastApi/
-├── src/
-│   ├── app/
-│   │   ├── api/              # Rotas da aplicação
-│   │   │   ├── users.py
-│   │   │   ├── orders.py
-│   │   │   └── uploads.py
-│   │   ├── core/             # Configurações e componentes centrais
-│   │   │   ├── config.py     # Variáveis do .env
-│   │   │   ├── db.py         # Conexão MongoDB
-│   │   │   ├── logger.py     # Sistema de logs estruturados
-│   │   │   └── monitor.py    # Sistema de alerta para erros críticos
-│   │   ├── models/           # Schemas e modelos Pydantic
-│   │   ├── services/         # Integração externa simulada (ex: pagamento)
-│   │   └── main.py           # Ponto de entrada da API
-│   ├── tests/                # Testes automatizados com pytest
-│   │   ├── conftest.py       # Fixtures da API e banco fake
-│   │   ├── test_users.py
-│   │   ├── test_orders.py
-│   │   └── test_uploads.py (opcional)
-│   └── .env                  # Configurações do ambiente
-├── requirements.txt
-└── README.md
-```
+- Cadastro e gestão de usuários  
+- Criação e listagem de pedidos  
+- Upload de arquivos  
+- Health check automatizado  
+- Tratamento global de exceções  
+- Logs estruturados  
+- Monitoramento de falhas críticas  
+- Integração externa simulada (ex: pagamento)  
+- Testes automatizados assíncronos  
 
 ---
 
-## ⚙️ Instalação e Execução
+## 🏗️ Arquitetura e Estrutura
 
-### 1️⃣ Clonar o projeto
+```
+src/
+ └── app/
+     ├── api/         # Rotas da aplicação
+     ├── core/        # Configurações e serviços centrais
+     ├── models/      # Schemas Pydantic
+     ├── services/    # Integrações externas simuladas
+     └── main.py      # Ponto de entrada
+ └── tests/           # Testes automatizados
+```
 
+A arquitetura é organizada para:
+- manter baixo acoplamento  
+- facilitar testes  
+- permitir escalabilidade  
+- centralizar erros e logs  
+- isolar integração externa  
+
+---
+
+## ▶️ Como rodar o projeto localmente
+
+### 1️⃣ Clonar repositório
 ```bash
 git clone https://github.com/seuusuario/robust-fastapi.git
 cd robust-fastapi
 ```
 
-### 2️⃣ Criar ambiente virtual
+---
 
+### 2️⃣ Criar ambiente virtual
 ```bash
 python -m venv venv
 ```
 
-**Windows:**
+Windows:
 ```bash
 venv\Scripts\activate
 ```
 
-**Linux/Mac:**
+Linux/Mac:
 ```bash
 source venv/bin/activate
 ```
 
-### 3️⃣ Instalar dependências
+---
 
+### 3️⃣ Instalar dependências
 ```bash
 pip install -r requirements.txt
 ```
 
+---
+
 ### 4️⃣ Configurar variáveis de ambiente
+Crie o arquivo `src/.env`:
 
-Crie o arquivo `src/.env` com o conteúdo sugerido:
-
-```
+```env
 MONGO_URI=mongodb://localhost:27017/robustdb
 LOG_LEVEL=INFO
 ```
 
-**Dica (MongoDB via Docker):**
+💡 Dica: subir MongoDB via Docker:
 ```bash
 docker run -d --name robust-mongo -p 27017:27017 mongo:6.0
 ```
 
-### 5️⃣ Iniciar o servidor
+---
 
+### 5️⃣ Rodar API
 ```bash
 cd src
 uvicorn app.main:app --reload --port 8000
 ```
 
-Acesse:
-- **Swagger:** http://127.0.0.1:8000/docs
-- **Health Check:** http://127.0.0.1:8000/health
+---
+
+### 🌐 Endpoints disponíveis
+
+Swagger:
+```
+http://127.0.0.1:8000/docs
+```
+
+Health:
+```
+http://127.0.0.1:8000/health
+```
 
 ---
 
-## 🧪 Executando os Testes
+## 🧪 Executando os testes
 
-Os testes utilizam **pytest** e **httpx.AsyncClient**, simulando requisições reais à API.
-
-### Antes de rodar:
-
-**PowerShell (Windows):**
+### Configurar PATH:
+Windows:
 ```powershell
 $env:PYTHONPATH="src"
 ```
 
-**Linux/Mac:**
+Linux/Mac:
 ```bash
 export PYTHONPATH=src
 ```
 
-### Rodar testes:
+---
 
+### Rodar testes:
 ```bash
 pytest -q
 ```
 
-### Exemplos do que é testado:
-
-- ✔ Criação de usuários
-- ✔ Evitar duplicidade de e-mail
-- ✔ Criação de pedidos + mock de pagamento
-- ✔ Falha simulada no serviço externo
-- ✔ Logs e respostas corretas da API
-
----
-
-## 🧰 Recursos de Robustez Implementados
-
-### ✔ Health Check Inteligente
-
-O endpoint `/health` verifica:
-- Conexão com o MongoDB
-- Status geral da API
-- Retorna 503 automaticamente se o banco falhar
-
-### ✔ Tratamento Global de Exceções
-
-Nenhuma exceção "vaza". Tudo passa por um handler global que:
-- Registra erro detalhado no log
-- Envia alerta via `monitor.py`
-- Retorna JSON amigável para o cliente
-
-### ✔ Logs Estruturados (JSON-like)
-
-Tudo é registrado com:
-- Nível (INFO / WARNING / ERROR)
-- Rota
-- Método HTTP
-- Mensagem contextual
-
-Arquivo gerado: `robust.log`
-
-### ✔ Integração externa simulada
-
-O serviço `payment_client.py` emula uma API real:
-- Sucesso
-- Falha
-- Tempo de resposta
-- Mocks para testes
-
-### ✔ Testes Automatizados
-
-Cobrem:
-- Regras de negócio
-- Falhas simuladas
-- Idempotência
-- Comportamento assíncrono
-- Response codes + payload
+Testes cobrem:
+- criação de usuários
+- validação de duplicidade
+- fluxo de pedidos
+- falhas externas
+- comportamento assíncrono
+- retornos HTTP
 
 ---
 
-## 📈 Próximos Passos
+## 🧠 Destaques Técnicos
 
-- Adicionar testes para upload de arquivos
-- Criar índice único (email) no MongoDB
-- Dockerfile + docker-compose (API + Mongo + Logs)
-- Middleware para correlação de requisições (Request ID)
-- Rate limiting (limitar requisições suspeitas)
-- Exportar logs em formato OpenTelemetry
+### ✔ Health Check Automático
+- Verifica conexão com MongoDB  
+- Retorna `503` automaticamente em falhas  
 
 ---
 
-## 🧠 Intuito do Projeto
+### ✔ Middleware global de exceções
+- Nenhuma exceção vaza diretamente  
+- Logs técnicos + resposta amigável  
 
-Criar uma API robusta, resiliente e testada, ideal para:
-- Portfolio profissional
-- Estudo de boas práticas
-- Simulação de ambientes reais de backend
+---
+
+### ✔ Logs estruturados
+Incluem:
+- nível
+- rota
+- método
+- mensagem detalhada  
+
+Arquivo: `robust.log`
+
+---
+
+### ✔ Simulação de integração externa
+O serviço simula:
+- sucesso  
+- timeout  
+- falha  
+- mocks nos testes  
+
+Isso aproxima o sistema de cenários reais de produção.
+
+---
+
+### ✔ Testes automatizados
+Utilizados para validar:
+- regras de negócio  
+- falhas controladas  
+- exceções  
+- concorrência  
+
+---
+
+## 📈 Próximos passos planejados
+
+- Testes para upload  
+- Índices e constraints no MongoDB  
+- Dockerfile e docker-compose  
+- Middleware de Request ID  
+- Rate limiting  
+- Exportação de logs (OpenTelemetry)  
 
 ---
 
 ## 👨‍💻 Autor
 
 **Igorzon**  
-Desenvolvedor Python — Backend & APIs
+Desenvolvedor Backend Python  
+FastAPI | APIs REST | Arquitetura Limpa  
 
 ---
 
 ## 🧭 Licença
-
-Uso livre para fins de aprendizado e portfólio.
+Uso livre para portfólio e fins educacionais.
